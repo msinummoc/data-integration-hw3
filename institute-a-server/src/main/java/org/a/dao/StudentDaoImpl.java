@@ -4,6 +4,8 @@ import org.a.model.Student;
 import org.dom4j.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -38,6 +40,21 @@ public class StudentDaoImpl implements StudentDao {
             }
         }
         return students;
+    }
+
+    @Override
+    @Transactional
+    public int insertStudent(Student student) throws SQLException {
+        String sql = "INSERT INTO 学生表 (学号, 姓名, 性别, 院系, 关联账户) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, student.getStudentId());
+            stmt.setString(2, student.getName());
+            stmt.setString(3, student.getGender());
+            stmt.setString(4, student.getDepartment());
+            stmt.setString(5, student.getAssociatedAccount());
+            return stmt.executeUpdate();
+        }
     }
 
     public String generateStudentsXml() throws Exception {

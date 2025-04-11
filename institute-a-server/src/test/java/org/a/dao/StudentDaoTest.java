@@ -1,4 +1,3 @@
-/*
 package org.a.dao;
 
 import org.a.model.Student;
@@ -70,4 +69,4 @@ class StudentDaoTest {
         List<Student> students = studentDao.getAllStudents();
         assertTrue(students.isEmpty());
     }
-}*/
+}
