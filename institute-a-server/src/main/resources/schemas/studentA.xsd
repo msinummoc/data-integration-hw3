@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="GB2312"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="Students">
         <xs:complexType>
@@ -5,11 +6,11 @@
                 <xs:element name="student" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="瀛﹀彿" type="xs:string"/>
-                            <xs:element name="濮撳悕" type="xs:string"/>
-                            <xs:element name="鎬у埆" type="xs:string"/>
-                            <xs:element name="闄㈢郴" type="xs:string"/>
-                            <xs:element name="鍏宠仈璐︽埛" type="xs:string"/>
+                            <xs:element name="学号" type="xs:string"/>
+                            <xs:element name="姓名" type="xs:string"/>
+                            <xs:element name="性别" type="xs:string"/>
+                            <xs:element name="院系" type="xs:string"/>
+                            <xs:element name="关联账户" type="xs:string"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

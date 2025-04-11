@@ -1,59 +1,124 @@
 package org.a.dao;
 
+import org.a.model.Course;
+import org.a.model.CourseSelection;
 import org.a.model.Student;
 import org.dom4j.Document;
-import org.testng.annotations.Test;
+import org.dom4j.DocumentException;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
+import org.junit.jupiter.api.Test;
+
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.File;
-import java.io.FileWriter;
-import java.util.Arrays;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 
-import static java.nio.charset.StandardCharsets.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class XmlGeneratorTest {
-    // 测试数据准备
-    private List<Student> createTestStudents() {
-        Student s1 = new Student();
-        s1.setStudentId("2023001");
-        s1.setName("张三");
-        s1.setGender("男");
-        s1.setDepartment("计算机学院");
-        s1.setAssociatedAccount("zhangsan");
-        return Arrays.asList(s1);
-    }
 
-    // 测试XML生成是否符合XSD规范
+    // 测试学生XML生成是否符合XSD规范
     @Test
-    void testGeneratedXmlAgainstSchema() throws Exception {
-        // 1. 生成XML文档
-        List<Student> students = createTestStudents();
+    void testStudentXmlAgainstSchema() throws Exception {
+        // 1. 生成测试数据
+        Student student = new Student();
+        student.setStudentId("2023001");
+        student.setName("张三");
+        student.setGender("男");
+        student.setDepartment("计算机学院");
+        student.setAssociatedAccount("zhangsan");
+        List<Student> students = Collections.singletonList(student);
+
+        // 2. 生成XML文档
         Document doc = XmlGenerator.generateStudentXml(students);
 
-        // 2. 将XML写入临时文件（或直接使用内存内容）
-        File xmlFile = new File("target/test-student.xml");
-        doc.write(new FileWriter(xmlFile, UTF_16));  //不知道可不可以
-
-        // 3. 加载XSD Schema
-        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Source schemaSource = new StreamSource(getClass().getResourceAsStream("/schemas/studentA.xsd"));
-        Schema schema = factory.newSchema(schemaSource);
-
-        // 4. 创建Validator并验证XML
-        Validator validator = schema.newValidator();
-        validator.validate(new StreamSource(xmlFile)); // 若无异常则验证通过
+        // 3. 验证XML是否符合studentA.xsd
+        validateXmlAgainstSchema(doc, "/schemas/studentA.xsd");
     }
 
-    // 测试XML内容是否正确
+    // 测试课程XML生成是否符合XSD规范
     @Test
-    void testXmlContent() {
-        List<Student> students = createTestStudents();
+    void testCourseXmlAgainstSchema() throws Exception {
+        // 1. 生成测试数据
+        Course course = new Course();
+        course.setCourseId("C-101");
+        course.setCourseName("数据结构");
+        course.setCredit("3");
+        course.setTeacher("王老师");
+        course.setLocation("A栋301");
+        course.setSharedFlag("1");
+        List<Course> courses = Collections.singletonList(course);
+
+        // 2. 生成XML文档
+        Document doc = XmlGenerator.generateCourseXml(courses);
+
+        // 3. 验证XML是否符合classA.xsd
+        validateXmlAgainstSchema(doc, "/schemas/classA.xsd");
+    }
+
+    // 测试选课XML生成是否符合XSD规范
+    @Test
+    void testCourseSelectionXmlAgainstSchema() throws Exception {
+        // 1. 生成测试数据
+        CourseSelection selection = new CourseSelection();
+        selection.setCourseId("C-101");
+        selection.setStudentId("2023001");
+        selection.setGrade("85");
+        List<CourseSelection> selections = Collections.singletonList(selection);
+
+        // 2. 生成XML文档
+        Document doc = XmlGenerator.generateCourseSelectionXml(selections);
+
+        // 3. 验证XML是否符合choiceA.xsd
+        validateXmlAgainstSchema(doc, "/schemas/choiceA.xsd");
+    }
+
+    // 通用XML Schema验证方法
+    // 修改后的 validateXmlAgainstSchema 方法
+    private void validateXmlAgainstSchema(Document doc, String schemaPath) throws Exception {
+        File xmlFile = File.createTempFile("test-", ".xml");
+
+        // 1. 写入 XML 文件（强制 GB2312 编码）
+        try (OutputStreamWriter writer = new OutputStreamWriter(
+                new FileOutputStream(xmlFile), "GB2312")) {
+            OutputFormat format = OutputFormat.createPrettyPrint();
+            format.setEncoding("GB2312");
+            XMLWriter xmlWriter = new XMLWriter(writer, format);
+            xmlWriter.write(doc);
+        }
+
+        // 2. 加载 Schema
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Source schemaSource = new StreamSource(getClass().getResourceAsStream(schemaPath));
+        Schema schema = factory.newSchema(schemaSource);
+
+        // 3. 验证时指定编码
+        try (InputStreamReader reader = new InputStreamReader(
+                new FileInputStream(xmlFile), "GB2312")) {
+            Validator validator = schema.newValidator();
+            validator.validate(new StreamSource(reader));
+        }
+    }
+
+    // 测试XML内容是否正确（学生示例）
+    @Test
+    void testStudentXmlContent() {
+        Student student = new Student();
+        student.setStudentId("2023001");
+        student.setName("张三");
+        student.setGender("男");
+        student.setDepartment("计算机学院");
+        student.setAssociatedAccount("zhangsan");
+        List<Student> students = Collections.singletonList(student);
+
         Document doc = XmlGenerator.generateStudentXml(students);
         String xml = doc.asXML();
 
