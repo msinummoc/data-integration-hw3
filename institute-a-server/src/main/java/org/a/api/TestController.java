@@ -6,6 +6,8 @@ import org.a.dao.StudentDao;
 import org.a.model.Student;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -19,7 +21,7 @@ public class TestController {
 
     // 测试接口：查询所有学生
     @GetMapping("/students")
-    public List<Student> getAllStudents() {
+    public List<Student> getAllStudents() throws Exception {
         return studentDao.getAllStudents();
     }
 
