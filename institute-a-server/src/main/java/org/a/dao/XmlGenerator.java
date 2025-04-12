@@ -7,6 +7,7 @@ import org.a.model.CourseSelection;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+
 import java.util.List;
 
 public class XmlGenerator {
@@ -20,8 +21,12 @@ public class XmlGenerator {
             studentElem.addElement("Id").addText(s.getStudentId());
             studentElem.addElement("Name").addText(s.getName());
             studentElem.addElement("Gender").addText(s.getGender());
-            studentElem.addElement("Department").addText(s.getDepartment());
-            studentElem.addElement("Account").addText(s.getAssociatedAccount());
+            if (s.getDepartment() != null) {
+                studentElem.addElement("Department").addText(s.getDepartment());
+            }
+            if (s.getAssociatedAccount() != null) {
+                studentElem.addElement("Account").addText(s.getAssociatedAccount());
+            }
         }
         return doc;
     }

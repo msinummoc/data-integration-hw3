@@ -7,7 +7,7 @@
                     <xs:complexType>
                         <xs:sequence>
                             <!-- 必填字段 -->
-                            <xs:element name="Id" type="xs:string">
+                            <xs:element name="Id">
                                 <xs:annotation>
                                     <xs:documentation>学号，长度限制为12</xs:documentation>
                                 </xs:annotation>
@@ -17,7 +17,7 @@
                                     </xs:restriction>
                                 </xs:simpleType>
                             </xs:element>
-                            <xs:element name="Name" type="xs:string">
+                            <xs:element name="Name">
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">
                                         <xs:maxLength value="40"/>
@@ -34,21 +34,21 @@
                             </xs:element>
 
                             <!-- 可选字段 -->
-                            <xs:element name="Department" type="xs:string" minOccurs="0">
+                            <xs:element name="Department" minOccurs="0">
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">
                                         <xs:maxLength value="20"/>
                                     </xs:restriction>
                                 </xs:simpleType>
                             </xs:element>
-                            <xs:element name="Major" type="xs:string" minOccurs="0">
+                            <xs:element name="Major" minOccurs="0">
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">
                                         <xs:maxLength value="20"/>
                                     </xs:restriction>
                                 </xs:simpleType>
                             </xs:element>
-                            <xs:element name="Account" type="xs:string" minOccurs="0">
+                            <xs:element name="Account" minOccurs="0">
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">
                                         <xs:maxLength value="10"/>

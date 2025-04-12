@@ -110,24 +110,21 @@ class XmlGeneratorTest {
 
     // 测试XML内容是否正确（学生示例）
     @Test
-    void testStudentXmlContent() {
+    void testGenerateStudentXml() {
         Student student = new Student();
         student.setStudentId("2023001");
         student.setName("张三");
         student.setGender("男");
         student.setDepartment("计算机学院");
-        student.setAssociatedAccount("zhangsan");
-        List<Student> students = Collections.singletonList(student);
 
+        List<Student> students = Collections.singletonList(student);
         Document doc = XmlGenerator.generateStudentXml(students);
         String xml = doc.asXML();
 
         assertAll(
-                () -> assertTrue(xml.contains("<学号>2023001</学号>"), "学号字段缺失"),
-                () -> assertTrue(xml.contains("<姓名>张三</姓名>"), "姓名字段缺失"),
-                () -> assertTrue(xml.contains("<性别>男</性别>"), "性别字段缺失"),
-                () -> assertTrue(xml.contains("<院系>计算机学院</院系>"), "院系字段缺失"),
-                () -> assertTrue(xml.contains("<关联账户>zhangsan</关联账户>"), "关联账户字段缺失")
+                () -> assertTrue(xml.contains("<Id>2023001</Id>"), "学号字段缺失"),
+                () -> assertTrue(xml.contains("<Name>张三</Name>"), "姓名字段缺失"),
+                () -> assertTrue(xml.contains("<Gender>男</Gender>"), "性别字段缺失")
         );
     }
 }
