@@ -23,7 +23,7 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public List<Student> getAllStudents() throws SQLException {
         List<Student> students = new ArrayList<>();
-        String sql = "SELECT 学号, 姓名, 性别, 院系, 关联账户 FROM 学生表";
+        String sql = "SELECT 学号, 姓名, 性别, 院系, 关联账户 FROM 学生";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -45,7 +45,7 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     @Transactional
     public int insertStudent(Student student) throws SQLException {
-        String sql = "INSERT INTO 学生表 (学号, 姓名, 性别, 院系, 关联账户) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO 学生 (学号, 姓名, 性别, 院系, 关联账户) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, student.getStudentId());

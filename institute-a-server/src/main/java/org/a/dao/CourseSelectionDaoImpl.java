@@ -17,7 +17,7 @@ public class CourseSelectionDaoImpl implements CourseSelectionDao {
 
     @Override
     public int insertCourseSelection(CourseSelection selection) throws SQLException {
-        String sql = "INSERT INTO 选课表 (课程编号, 学生编号, 成绩) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO 选课 (课程编号, 学生编号, 成绩) VALUES (?, ?, ?)";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

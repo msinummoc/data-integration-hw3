@@ -20,7 +20,7 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public List<Course> getAllCourses() throws SQLException {
         List<Course> courses = new ArrayList<>();
-        String sql = "SELECT 课程编号, 课程名称, 学分, 授课老师, 授课地点, 共享 FROM 课程表";
+        String sql = "SELECT 课程编号, 课程名称, 学分, 授课老师, 授课地点, 共享 FROM 课程";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -42,7 +42,7 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public int insertCourse(Course course) throws SQLException {
-        String sql = "INSERT INTO 课程表 (课程编号, 课程名称, 学分, 授课老师, 授课地点, 共享) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO 课程 (课程编号, 课程名称, 学分, 授课老师, 授课地点, 共享) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
