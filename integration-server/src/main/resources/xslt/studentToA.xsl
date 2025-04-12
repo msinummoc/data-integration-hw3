@@ -15,8 +15,8 @@
             <学号><xsl:value-of select="Id"/></学号>
             <姓名><xsl:value-of select="Name"/></姓名>
             <性别><xsl:value-of select="Gender"/></性别>
-            <xsl:if test="Department">
-                <院系><xsl:value-of select="Department"/></院系>
+            <xsl:if test="Major">
+                <院系><xsl:value-of select="Major"/></院系>
             </xsl:if>
             <xsl:if test="Account">
                 <关联账户><xsl:value-of select="Account"/></关联账户>

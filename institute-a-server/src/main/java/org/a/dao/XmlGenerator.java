@@ -22,7 +22,7 @@ public class XmlGenerator {
             studentElem.addElement("Name").addText(s.getName());
             studentElem.addElement("Gender").addText(s.getGender());
             if (s.getDepartment() != null) {
-                studentElem.addElement("Department").addText(s.getDepartment());
+                studentElem.addElement("Major").addText(s.getDepartment());
             }
             if (s.getAssociatedAccount() != null) {
                 studentElem.addElement("Account").addText(s.getAssociatedAccount());

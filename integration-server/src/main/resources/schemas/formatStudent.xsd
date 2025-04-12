@@ -34,13 +34,6 @@
                             </xs:element>
 
                             <!-- ¿ÉÑ¡×Ö¶Î -->
-                            <xs:element name="Department" minOccurs="0">
-                                <xs:simpleType>
-                                    <xs:restriction base="xs:string">
-                                        <xs:maxLength value="20"/>
-                                    </xs:restriction>
-                                </xs:simpleType>
-                            </xs:element>
                             <xs:element name="Major" minOccurs="0">
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">

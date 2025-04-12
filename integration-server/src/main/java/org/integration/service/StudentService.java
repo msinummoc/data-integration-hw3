@@ -2,6 +2,7 @@ package org.integration.service;
 
 import org.integration.util.XsltTransformer;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -15,6 +16,7 @@ import java.io.StringReader;
 
 import org.springframework.web.client.RestTemplate;
 
+@Service
 public class StudentService {
     private final RestTemplate restTemplate = new RestTemplate();
 

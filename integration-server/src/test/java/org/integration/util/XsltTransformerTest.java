@@ -17,7 +17,7 @@ class XsltTransformerTest {
                 "       <Id>2023001</Id>" +
                 "       <Name>张三</Name>" +
                 "       <Gender>男</Gender>" +
-                "       <Department>计算机学院</Department>" +
+                "       <Major>计算机学院</Major>" +
                 "       <Account>zhangsan</Account>" +
                 "   </Student>" +
                 "</Students>";
@@ -48,7 +48,7 @@ class XsltTransformerTest {
                 "       <Id>2023001</Id>" +
                 "       <Name>张三</Name>" +
                 "       <Gender>男</Gender>" +
-                "       <Department>计算机学院</Department>" +
+                "       <Major>计算机学院</Major>" +
                 "       <Account>zhangsan</Account>" +
                 "   </Student>" +
                 "</Students>";
@@ -76,6 +76,47 @@ class XsltTransformerTest {
                 .build();
 
         assertFalse(diff.hasDifferences(), "转换结果不符合院系A的格式要求。差异：\n" + diff.toString());
+    }
+
+    @Test
+    void testTransformToInstituteA2() throws Exception {
+        // 输入 XML（集成服务器统一格式）
+        String inputXml = "<?xml version='1.0' encoding='GB2312'?>" +
+                "<Students>" +
+                "   <Student>" +
+                "       <Id>2023001</Id>" +
+                "       <Name>张三</Name>" +
+                "       <Gender>男</Gender>" +
+                "       <Major>计算机学院</Major>" +
+                "       <Account>zhangsan</Account>" +
+                "   </Student>" +
+                "</Students>";
+
+        // 调用转换方法
+        String transformedXml = XsltTransformer.transform(inputXml, "xslt/studentToA.xsl");
+
+        // 预期输出的 XML 结构（无需内容完全一致，只需符合 XSD）
+        String expectedXml = "<?xml version='1.0' encoding='GB2312'?>" +
+                "<Students>" +
+                "   <student>" +
+                "       <学号>2023001</学号>" +
+                "       <姓名>张三</姓名>" +
+                "       <性别>男</性别>" +
+                "       <院系>计算机学院</院系>" +
+                "       <关联账户>zhangsan</关联账户>" +
+                "   </student>" +
+                "</Students>";
+
+        // 验证 XML 结构是否符合 XSD
+        assertDoesNotThrow(() -> XmlValidator.validate(transformedXml, "/schemas/__test__studentA.xsd"));
+
+        // 可选：使用 XMLUnit 对比内容
+        Diff diff = DiffBuilder.compare(expectedXml)
+                .withTest(transformedXml)
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .build();
+        assertFalse(diff.hasDifferences());
     }
 
     @Test
